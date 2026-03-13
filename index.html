@@ -1,0 +1,1005 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TalkBetter Week 5</title>
+  <style>
+    :root {
+      --bg-1: #f7fbff;
+      --bg-2: #f8f4ff;
+      --bg-3: #fffaf2;
+      --card: rgba(255, 255, 255, 0.92);
+      --card-strong: #ffffff;
+      --text: #1d2c49;
+      --muted: #5a6b8c;
+      --teal: #12c2c9;
+      --blue: #5b8cff;
+      --coral: #ff7a8a;
+      --amber: #ffcb57;
+      --mint: #9df0d2;
+      --violet: #8e86ff;
+      --shadow: 0 18px 42px rgba(76, 107, 179, 0.16);
+      --shadow-soft: 0 12px 26px rgba(76, 107, 179, 0.12);
+      --radius-xl: 28px;
+      --radius-lg: 22px;
+      --radius-md: 18px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "Trebuchet MS", "Segoe UI", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(18, 194, 201, 0.2), transparent 30%),
+        radial-gradient(circle at top right, rgba(91, 140, 255, 0.2), transparent 28%),
+        radial-gradient(circle at bottom left, rgba(255, 122, 138, 0.18), transparent 24%),
+        linear-gradient(180deg, var(--bg-1), var(--bg-2) 55%, var(--bg-3));
+    }
+
+    body::before,
+    body::after {
+      content: "";
+      position: fixed;
+      border-radius: 50%;
+      z-index: -1;
+      filter: blur(8px);
+      opacity: 0.55;
+    }
+
+    body::before {
+      width: 220px;
+      height: 220px;
+      left: -70px;
+      top: 90px;
+      background: rgba(18, 194, 201, 0.18);
+    }
+
+    body::after {
+      width: 260px;
+      height: 260px;
+      right: -100px;
+      bottom: 100px;
+      background: rgba(142, 134, 255, 0.22);
+    }
+
+    .page-shell {
+      width: min(1120px, calc(100% - 28px));
+      margin: 0 auto;
+      padding: 22px 0 96px;
+    }
+
+    .hero-card {
+      background: linear-gradient(145deg, rgba(255, 255, 255, 0.94), rgba(244, 249, 255, 0.94));
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow);
+      padding: 14px 14px;
+      text-align: center;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 44px;
+      height: 44px;
+      margin-bottom: 6px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, rgba(18, 194, 201, 0.14), rgba(91, 140, 255, 0.16), rgba(255, 122, 138, 0.16));
+      box-shadow: var(--shadow-soft);
+      font-size: 1.4rem;
+    }
+
+    .hero-title {
+      margin: 0;
+      font-size: clamp(1.72rem, 5.6vw, 2.5rem);
+      line-height: 1.14;
+      letter-spacing: 0.02em;
+    }
+
+    .hero-subtitle {
+      margin: 6px auto 0;
+      max-width: 30ch;
+      font-size: clamp(0.94rem, 2.8vw, 1.06rem);
+      color: var(--muted);
+      line-height: 1.55;
+      font-weight: 700;
+    }
+
+    .top-controls {
+      display: grid;
+      gap: 12px;
+      margin-top: 10px;
+      justify-items: center;
+    }
+
+    .playing-status {
+      min-height: 28px;
+      font-size: 0.98rem;
+      color: var(--muted);
+      font-weight: 800;
+    }
+
+    .audio-button {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 0;
+      cursor: pointer;
+      font: inherit;
+      color: #ffffff;
+      background: linear-gradient(135deg, var(--teal), var(--blue));
+      box-shadow: 0 14px 28px rgba(91, 140, 255, 0.24);
+      border-radius: 999px;
+      padding: 12px 18px;
+      min-height: 48px;
+      font-size: 1rem;
+      font-weight: 900;
+      transition: transform 0.22s ease, box-shadow 0.22s ease, filter 0.22s ease;
+    }
+
+    .audio-button:hover {
+      transform: translateY(-2px);
+    }
+
+    .audio-button:active {
+      transform: translateY(1px) scale(0.98);
+    }
+
+    .audio-button--part {
+      width: 100%;
+    }
+
+    .audio-button.is-playing {
+      background: linear-gradient(135deg, var(--coral), var(--violet));
+      box-shadow: 0 0 0 8px rgba(142, 134, 255, 0.12), 0 0 30px rgba(255, 122, 138, 0.36);
+      animation: buttonPulse 0.95s ease-in-out infinite;
+    }
+
+    .sections {
+      display: grid;
+      gap: 18px;
+      margin-top: 18px;
+    }
+
+    .section-card {
+      background: var(--card);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow);
+      padding: 20px 16px 18px;
+      border: 1px solid rgba(255, 255, 255, 0.8);
+    }
+
+    .section-card__top {
+      display: grid;
+      gap: 14px;
+      margin-bottom: 16px;
+    }
+
+    .section-heading {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .section-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 16px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, rgba(18, 194, 201, 0.14), rgba(91, 140, 255, 0.16), rgba(255, 122, 138, 0.16));
+      color: var(--blue);
+      box-shadow: var(--shadow-soft);
+      font-size: 1.5rem;
+      flex: 0 0 auto;
+    }
+
+    .section-title-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .section-title {
+      margin: 0;
+      font-size: clamp(1.7rem, 5vw, 2.15rem);
+      letter-spacing: 0.02em;
+    }
+
+    .section-tag {
+      display: inline-flex;
+      align-items: center;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, rgba(18, 194, 201, 0.16), rgba(255, 203, 87, 0.28));
+      color: #4160a4;
+      font-size: 1rem;
+      font-weight: 900;
+    }
+
+    .section-image {
+      width: 100%;
+      max-width: 520px;
+      display: block;
+      margin: 0 auto;
+      border-radius: 24px;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .sentence-grid,
+    .links-grid,
+    .phonics-grid,
+    .verbs-grid {
+      display: grid;
+      gap: 12px;
+    }
+
+    .sentence-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .sentence-card,
+    .link-card,
+    .phonics-item,
+    .story-card,
+    .verb-card {
+      border-radius: var(--radius-lg);
+      background: var(--card-strong);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .sentence-card {
+      padding: 16px;
+      background: linear-gradient(180deg, #ffffff, #fdfcff);
+      border: 1px solid rgba(91, 140, 255, 0.2);
+    }
+
+    .sentence-card__en {
+      margin: 0;
+      font-size: 1.28rem;
+      font-weight: 900;
+      line-height: 1.48;
+    }
+
+    .sentence-card__zh {
+      margin: 10px 0 0;
+      font-size: 1.08rem;
+      color: var(--muted);
+      line-height: 1.68;
+      font-weight: 700;
+    }
+
+    .phonics-note {
+      margin: 0 0 14px;
+      padding: 16px;
+      border-radius: var(--radius-md);
+      background: linear-gradient(135deg, rgba(255, 203, 87, 0.45), rgba(142, 134, 255, 0.18));
+      color: #3c5191;
+      box-shadow: var(--shadow-soft);
+      font-weight: 900;
+      line-height: 1.7;
+      font-size: 1.14rem;
+    }
+
+    .phonics-item {
+      padding: 16px;
+      border: 1px solid rgba(18, 194, 201, 0.22);
+      background: linear-gradient(145deg, #ffffff, #f3fbff);
+    }
+
+    .phonics-word {
+      margin: 0;
+      font-size: 1.35rem;
+      font-weight: 900;
+      color: #3b56b2;
+    }
+
+    .phonics-breakdown {
+      margin: 8px 0 0;
+      color: #5f6fa5;
+      line-height: 1.7;
+      font-weight: 800;
+      font-size: 1.08rem;
+    }
+
+    .phonics-meaning {
+      display: inline-block;
+      margin-top: 10px;
+      padding: 7px 12px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, rgba(157, 240, 210, 0.95), rgba(18, 194, 201, 0.18));
+      color: #2c6f57;
+      font-size: 1rem;
+      font-weight: 900;
+    }
+
+    .verbs-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .verb-card {
+      position: relative;
+      overflow: hidden;
+      padding: 16px;
+      border: 1px solid rgba(18, 194, 201, 0.2);
+      background: linear-gradient(145deg, #ffffff, #f4fbff);
+    }
+
+    .verb-card::before {
+      content: "";
+      position: absolute;
+      width: 78px;
+      height: 78px;
+      right: -18px;
+      top: -18px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, rgba(18, 194, 201, 0.14), rgba(91, 140, 255, 0.18));
+    }
+
+    .verb-card__badge {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 42px;
+      height: 42px;
+      margin-bottom: 12px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, rgba(255, 203, 87, 0.3), rgba(255, 122, 138, 0.22));
+      color: #4960aa;
+      font-size: 1.3rem;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .verb-card__top {
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .verb-card__base,
+    .verb-card__ing {
+      margin: 0;
+      font-size: 1.22rem;
+      font-weight: 900;
+      color: #3552ad;
+    }
+
+    .verb-card__arrow {
+      color: #7d8db8;
+      font-weight: 900;
+      font-size: 1.05rem;
+    }
+
+    .verb-card__zh {
+      margin: 10px 0 0;
+      color: var(--muted);
+      font-size: 1.06rem;
+      font-weight: 800;
+      line-height: 1.6;
+    }
+
+    .verb-card__label {
+      position: relative;
+      display: inline-flex;
+      margin-top: 12px;
+      padding: 6px 11px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, rgba(157, 240, 210, 0.85), rgba(18, 194, 201, 0.14));
+      color: #2f6c70;
+      font-size: 0.92rem;
+      font-weight: 900;
+    }
+
+    .story-card {
+      position: relative;
+      overflow: hidden;
+      padding: 20px;
+      background: linear-gradient(160deg, #ffffff, #fdf8d9 58%, #eef5ff);
+      border: 1px solid rgba(91, 140, 255, 0.18);
+    }
+
+    .story-card::before,
+    .story-card::after {
+      content: "";
+      position: absolute;
+      border-radius: 50%;
+      opacity: 0.45;
+    }
+
+    .story-card::before {
+      width: 92px;
+      height: 92px;
+      top: -20px;
+      right: -16px;
+      background: rgba(255, 122, 138, 0.16);
+    }
+
+    .story-card::after {
+      width: 72px;
+      height: 72px;
+      bottom: -18px;
+      left: -12px;
+      background: rgba(18, 194, 201, 0.18);
+    }
+
+    .story-kicker {
+      position: relative;
+      display: inline-block;
+      margin: 0 0 8px;
+      padding: 8px 13px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.84);
+      font-size: 0.96rem;
+      font-weight: 900;
+      color: #5a56b6;
+    }
+
+    .story-title {
+      position: relative;
+      margin: 0 0 12px;
+      font-size: clamp(1.8rem, 5.6vw, 2.3rem);
+    }
+
+    .story-text,
+    .story-translation {
+      position: relative;
+      margin: 0;
+      line-height: 1.9;
+      font-size: 1.12rem;
+      font-weight: 700;
+    }
+
+    .story-translation {
+      margin-top: 14px;
+      padding-top: 14px;
+      border-top: 2px dashed rgba(91, 140, 255, 0.28);
+      color: #536484;
+      white-space: pre-line;
+    }
+
+    .links-title {
+      margin: 0 0 14px;
+      font-size: 1.18rem;
+      color: var(--muted);
+      font-weight: 900;
+    }
+
+    .link-card {
+      display: block;
+      padding: 18px;
+      text-decoration: none;
+      color: inherit;
+      background: linear-gradient(160deg, #ffffff, #f8fbff);
+      border: 1px solid rgba(91, 140, 255, 0.2);
+      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    }
+
+    .link-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 14px 24px rgba(91, 140, 255, 0.16);
+      border-color: rgba(18, 194, 201, 0.38);
+    }
+
+    .link-card__label {
+      margin: 0;
+      font-size: 1.18rem;
+      font-weight: 900;
+      color: #3d58b8;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .link-card__url {
+      margin: 8px 0 0;
+      color: #66789f;
+      line-height: 1.6;
+      word-break: break-all;
+      font-size: 1rem;
+      font-weight: 700;
+    }
+
+    .link-card__icon {
+      width: 38px;
+      height: 38px;
+      border-radius: 12px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, rgba(18, 194, 201, 0.14), rgba(255, 203, 87, 0.24));
+      font-size: 1.15rem;
+      flex: 0 0 auto;
+    }
+
+    .back-to-top {
+      position: fixed;
+      right: 16px;
+      bottom: 18px;
+      z-index: 30;
+      border: 0;
+      border-radius: 999px;
+      background: linear-gradient(135deg, var(--coral), var(--violet));
+      color: #fff;
+      font: inherit;
+      font-size: 1.02rem;
+      font-weight: 900;
+      padding: 14px 16px;
+      box-shadow: 0 14px 24px rgba(142, 134, 255, 0.24);
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .back-to-top:hover {
+      transform: translateY(-2px);
+    }
+
+    .back-to-home {
+      position: fixed;
+      left: 16px;
+      bottom: 18px;
+      z-index: 30;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 0;
+      border-radius: 999px;
+      background: linear-gradient(135deg, var(--teal), var(--blue));
+      color: #fff;
+      text-decoration: none;
+      font: inherit;
+      font-size: 1.02rem;
+      font-weight: 900;
+      padding: 14px 16px;
+      box-shadow: 0 14px 24px rgba(91, 140, 255, 0.22);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .back-to-home:hover {
+      transform: translateY(-2px);
+    }
+
+    @keyframes buttonPulse {
+      0%, 100% {
+        transform: translateY(0) scale(1);
+      }
+      50% {
+        transform: translateY(-2px) scale(1.05);
+      }
+    }
+
+    @media (min-width: 700px) {
+      .page-shell {
+        width: min(1120px, calc(100% - 40px));
+        padding-top: 28px;
+      }
+
+      .hero-card,
+      .section-card {
+        padding-left: 24px;
+        padding-right: 24px;
+      }
+
+      .top-controls {
+        grid-template-columns: auto 1fr;
+        align-items: center;
+      }
+
+      .sentence-grid,
+      .phonics-grid,
+      .links-grid,
+      .verbs-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (min-width: 980px) {
+      .sentence-grid[data-columns="3"] {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .phonics-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .links-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .verbs-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page-shell" id="top">
+    <header class="hero-card">
+      <div class="hero-badge" aria-hidden="true">🌿</div>
+      <h1 class="hero-title">TalkBetter Week 5</h1>
+      <p class="hero-subtitle">Plants, Sentences, Phonics, Story, and Links</p>
+      <div class="top-controls">
+        <button id="play-all-button" class="audio-button" type="button" onclick="togglePlayAll()">
+          <span class="audio-button__label">播放全部 MP3</span>
+        </button>
+        <div id="playing-status" class="playing-status">目前沒有播放音訊</div>
+      </div>
+    </header>
+
+    <main id="app" class="sections"></main>
+  </div>
+
+  <a class="back-to-home" href="https://talkbetter.github.io/D/">回導覽頁</a>
+  <button class="back-to-top" type="button" onclick="window.scrollTo({ top: 0, behavior: 'smooth' })">回到上方</button>
+
+  <script>
+    const audioMap = {
+      1: 'mp3/part1.mp3',
+      2: 'mp3/part2.mp3',
+      3: 'mp3/part3.mp3',
+      4: 'mp3/part4.mp3',
+      5: 'mp3/part5.mp3',
+      7: 'mp3/part7.mp3'
+    };
+
+    const pageData = {
+      sections: [
+        {
+          part: 1,
+          type: 'sentences',
+          title: 'Part 1',
+          icon: '🌱',
+          image: { src: '1.png', alt: 'Part 1 image' },
+          items: [
+            { en: 'Plant A is big and plant B is small.', zh: '植物 A 很大，植物 B 很小。' },
+            { en: 'Plant A is thick and plant B is thin.', zh: '植物 A 很粗，植物 B 很細。' },
+            { en: 'Plant A has a small flower and plant B has a big flower.', zh: '植物 A 有一朵小花，植物 B 有一朵大花。' },
+            { en: 'Plant A has a thick stem and plant B has a thin stem.', zh: '植物 A 有粗粗的莖，植物 B 有細細的莖。' },
+            { en: 'Plant A has spikes and plant B has leaves.', zh: '植物 A 有刺，植物 B 有葉子。' }
+          ]
+        },
+        {
+          part: 2,
+          type: 'sentences',
+          title: 'Part 2',
+          icon: '🗨️',
+          image: { src: '2.png', alt: 'Part 2 image' },
+          items: [
+            { en: 'The chimp has a belt like a crown.', zh: '黑猩猩戴著一條像皇冠一樣的腰帶。' },
+            { en: 'The frog sat next to one little star.', zh: '青蛙坐在一顆小星星旁邊。' },
+            { en: 'Sam and Kit have got some sticks.', zh: 'Sam 和 Kit 拿著一些樹枝。' },
+            { en: 'They are stuck out in a storm.', zh: '他們困在暴風雨中。' },
+            { en: 'The flag is high on the mast.', zh: '旗子高高掛在桅杆上。' }
+          ]
+        },
+        {
+          part: 3,
+          type: 'sentences',
+          title: 'Part 3',
+          icon: '🥕',
+          items: [
+            { en: 'The carrots are orange.', zh: '紅蘿蔔是橘色的。' },
+            { en: 'The carrots are long.', zh: '紅蘿蔔是長長的。' },
+            { en: 'They are fresh.', zh: '它們很新鮮。' },
+            { en: 'They are sweet and tasty.', zh: '它們又甜又好吃。' },
+            { en: 'The carrots are orange and long.', zh: '紅蘿蔔是橘色又長長的。' },
+            { en: 'Carrots are healthy vegetables.', zh: '紅蘿蔔是健康的蔬菜。' },
+            { en: 'Carrots are healthy vegetables, and they are good for us.', zh: '紅蘿蔔是健康的蔬菜，而且對我們有益。' }
+          ]
+        },
+        {
+          part: 4,
+          type: 'phonics',
+          title: 'Part 4',
+          icon: '🔤',
+          note: 'CCCVC：前面 3 個子音 + 中間 1 個母音 + 最後 1 個子音',
+          items: [
+            { word: 'scrub', breakdown: 'scr / u / b', meaning: '刷子' },
+            { word: 'split', breakdown: 'spl / i / t', meaning: '分開' },
+            { word: 'strip', breakdown: 'str / i / p', meaning: '長條' },
+            { word: 'splat', breakdown: 'spl / a / t', meaning: '潑濺聲' },
+            { word: 'splash', breakdown: 'spl / a / sh', meaning: '水花濺（灑）出' }
+          ]
+        },
+        {
+          part: 5,
+          type: 'story',
+          title: 'Part 5',
+          icon: '📖',
+          story: {
+            kicker: 'Story Reading Card',
+            title: 'The Giant Turnip',
+            english: 'The turnip was very big and heavy. Even with everyone helping, they could not pull it out, so the little mouse rolled it down the hill. Everyone cheered and shared the turnip.',
+            chinese: '這個蘿蔔非常大，也非常重。\n就算大家一起幫忙，他們還是沒辦法把它拔出來，\n所以小老鼠把它滾下山。\n大家都開心地歡呼，並一起分享這顆蘿蔔。'
+          }
+        },
+        {
+          part: 6,
+          type: 'links',
+          title: 'Part 6',
+          icon: '🔗',
+          heading: '黃組線上課連結',
+          items: [
+            { label: 'Parts Of A Plant', icon: '▶️', url: 'https://www.youtube.com/watch?v=p3St51F4kE8' },
+            { label: 'Plant Scramble Questions', icon: '🧩', url: 'https://www.educaplay.com/learning-resources/28184708-plant_scramble_quest.html' },
+            { label: 'simple irregular past tense', icon: '📝', url: 'https://wordwall.net/resource/55373403/simple-irregular-past-tense' },
+            { label: 'Past Tense', icon: '📚', url: 'https://wordwall.net/resource/55423084/past-tense-fill-in-the-blank-sentence-regular-and-irregular' }
+          ]
+        },
+        {
+          part: 7,
+          type: 'verbs',
+          title: 'Part 7',
+          icon: '🎧',
+          heading: '黃組線上課',
+          items: [
+            { base: 'run', ing: 'running', zh: '跑步', icon: '🏃' },
+            { base: 'walk', ing: 'walking', zh: '走路', icon: '🚶' },
+            { base: 'laugh', ing: 'laughing', zh: '笑', icon: '😄' },
+            { base: 'drink', ing: 'drinking', zh: '喝', icon: '🥤' },
+            { base: 'jump', ing: 'jumping', zh: '跳', icon: '🦘' },
+            { base: 'swim', ing: 'swimming', zh: '游泳', icon: '🏊' },
+            { base: 'eat', ing: 'eating', zh: '吃', icon: '🍽️' },
+            { base: 'cry', ing: 'crying', zh: '哭', icon: '😢' },
+            { base: 'dance', ing: 'dancing', zh: '跳舞', icon: '💃' },
+            { base: 'hop', ing: 'hopping', zh: '單腳跳', icon: '🦵' },
+            { base: 'kneel', ing: 'kneeling', zh: '跪下', icon: '🙏' },
+            { base: 'draw', ing: 'drawing', zh: '畫圖', icon: '✏️' },
+            { base: 'skip', ing: 'skipping', zh: '跳繩', icon: '🪢' },
+            { base: 'tiptoe', ing: 'tiptoeing', zh: '踮腳走', icon: '🩰' },
+            { base: 'write', ing: 'writing', zh: '寫字', icon: '📝' },
+            { base: 'paint', ing: 'painting', zh: '畫畫', icon: '🎨' }
+          ]
+        }
+      ]
+    };
+
+    const audioPlayer = new Audio();
+    audioPlayer.preload = 'auto';
+
+    const playbackState = {
+      activePart: null,
+      isPlayAll: false,
+      playAllQueue: [],
+      currentQueueIndex: -1
+    };
+
+    function renderPage() {
+      const app = document.getElementById('app');
+      app.innerHTML = pageData.sections.map(renderSection).join('');
+    }
+
+    function renderSection(section) {
+      const hasAudio = Object.prototype.hasOwnProperty.call(audioMap, section.part);
+      const imageHtml = section.image
+        ? `<img class="section-image" src="${section.image.src}" alt="${section.image.alt}">`
+        : '';
+      const audioButtonHtml = hasAudio
+        ? `<button class="audio-button audio-button--part" type="button" data-part-button="${section.part}" onclick="togglePartPlayback(${section.part})"><span class="audio-button__label">播放 MP3</span></button>`
+        : '';
+
+      return `
+        <section class="section-card" id="part-${section.part}">
+          <div class="section-card__top">
+            <div class="section-title-row">
+              <div class="section-heading">
+                <span class="section-icon" aria-hidden="true">${section.icon || '⭐'}</span>
+                <h2 class="section-title">${section.title}</h2>
+              </div>
+              <span class="section-tag">Week 5</span>
+            </div>
+            ${imageHtml}
+            ${audioButtonHtml}
+          </div>
+          ${renderSectionBody(section)}
+        </section>
+      `;
+    }
+
+    function renderSectionBody(section) {
+      if (section.type === 'sentences') {
+        const columns = section.items.length >= 6 ? 3 : 2;
+        return `
+          <div class="sentence-grid" data-columns="${columns}">
+            ${section.items.map((item) => `
+              <article class="sentence-card">
+                <p class="sentence-card__en">${item.en}</p>
+                <p class="sentence-card__zh">${item.zh}</p>
+              </article>
+            `).join('')}
+          </div>
+        `;
+      }
+
+      if (section.type === 'phonics') {
+        return `
+          <p class="phonics-note">${section.note}</p>
+          <div class="phonics-grid">
+            ${section.items.map((item) => `
+              <article class="phonics-item">
+                <p class="phonics-word">${item.word}</p>
+                <p class="phonics-breakdown">${item.breakdown}</p>
+                <span class="phonics-meaning">${item.meaning}</span>
+              </article>
+            `).join('')}
+          </div>
+        `;
+      }
+
+      if (section.type === 'story') {
+        return `
+          <article class="story-card">
+            <p class="story-kicker">${section.story.kicker}</p>
+            <h3 class="story-title">${section.story.title}</h3>
+            <p class="story-text">${section.story.english}</p>
+            <p class="story-translation">${section.story.chinese}</p>
+          </article>
+        `;
+      }
+
+      if (section.type === 'links') {
+        return `
+          <p class="links-title">${section.heading}</p>
+          <div class="links-grid">
+            ${section.items.map((item) => `
+              <a class="link-card" href="${item.url}" target="_blank" rel="noopener noreferrer">
+                <p class="link-card__label"><span class="link-card__icon" aria-hidden="true">${item.icon || '🔗'}</span><span>${item.label}</span></p>
+                <p class="link-card__url">${item.url}</p>
+              </a>
+            `).join('')}
+          </div>
+        `;
+      }
+
+      if (section.type === 'verbs') {
+        return `
+          <p class="links-title">${section.heading}</p>
+          <div class="verbs-grid">
+            ${section.items.map((item) => `
+              <article class="verb-card">
+                <div class="verb-card__badge" aria-hidden="true">${item.icon || '🎯'}</div>
+                <div class="verb-card__top">
+                  <p class="verb-card__base">${item.base}</p>
+                  <span class="verb-card__arrow">→</span>
+                  <p class="verb-card__ing">${item.ing}</p>
+                </div>
+                <p class="verb-card__zh">中文：${item.zh}</p>
+                <span class="verb-card__label">Action Word</span>
+              </article>
+            `).join('')}
+          </div>
+        `;
+      }
+
+      return '';
+    }
+
+    function getPartButton(partNumber) {
+      return document.querySelector(`[data-part-button="${partNumber}"]`);
+    }
+
+    function getPlayAllButton() {
+      return document.getElementById('play-all-button');
+    }
+
+    function setButtonPlayingState(button, isPlaying, playingText, idleText) {
+      if (!button) return;
+      button.classList.toggle('is-playing', isPlaying);
+      const label = button.querySelector('.audio-button__label');
+      if (label) label.textContent = isPlaying ? playingText : idleText;
+    }
+
+    function updatePlayingStatus(text) {
+      document.getElementById('playing-status').textContent = text;
+    }
+
+    function resetButtonStates() {
+      Object.keys(audioMap).forEach((part) => {
+        setButtonPlayingState(getPartButton(Number(part)), false, '停止播放', '播放 MP3');
+      });
+      setButtonPlayingState(getPlayAllButton(), false, '停止全部播放', '播放全部 MP3');
+    }
+
+    function stopPlayback(resetQueue = true) {
+      audioPlayer.pause();
+      audioPlayer.currentTime = 0;
+      audioPlayer.removeAttribute('src');
+      audioPlayer.load();
+      playbackState.activePart = null;
+
+      if (resetQueue) {
+        playbackState.isPlayAll = false;
+        playbackState.playAllQueue = [];
+        playbackState.currentQueueIndex = -1;
+      }
+
+      resetButtonStates();
+      updatePlayingStatus('目前沒有播放音訊');
+    }
+
+    function playPart(partNumber) {
+      playbackState.activePart = partNumber;
+      audioPlayer.src = audioMap[partNumber];
+      audioPlayer.play().then(() => {
+        resetButtonStates();
+        setButtonPlayingState(getPartButton(partNumber), true, '停止播放', '播放 MP3');
+        setButtonPlayingState(getPlayAllButton(), playbackState.isPlayAll, '停止全部播放', '播放全部 MP3');
+        updatePlayingStatus(
+          playbackState.isPlayAll
+            ? `正在播放全部 MP3：Part ${partNumber}`
+            : `正在播放 Part ${partNumber}`
+        );
+      }).catch(() => {
+        stopPlayback();
+        updatePlayingStatus(`Part ${partNumber} 音訊無法播放`);
+      });
+    }
+
+    function togglePartPlayback(partNumber) {
+      if (playbackState.activePart === partNumber) {
+        stopPlayback();
+        return;
+      }
+
+      stopPlayback(false);
+      playbackState.isPlayAll = false;
+      playbackState.playAllQueue = [];
+      playbackState.currentQueueIndex = -1;
+      playPart(partNumber);
+    }
+
+    function togglePlayAll() {
+      if (playbackState.isPlayAll) {
+        stopPlayback();
+        return;
+      }
+
+      stopPlayback(false);
+      playbackState.isPlayAll = true;
+      playbackState.playAllQueue = [1, 2, 3, 4, 5, 7];
+      playbackState.currentQueueIndex = 0;
+      playPart(playbackState.playAllQueue[0]);
+    }
+
+    audioPlayer.addEventListener('ended', () => {
+      if (!playbackState.isPlayAll) {
+        stopPlayback(false);
+        playbackState.activePart = null;
+        resetButtonStates();
+        updatePlayingStatus('目前沒有播放音訊');
+        return;
+      }
+
+      playbackState.currentQueueIndex += 1;
+      const nextPart = playbackState.playAllQueue[playbackState.currentQueueIndex];
+
+      if (!nextPart) {
+        stopPlayback();
+        return;
+      }
+
+      playPart(nextPart);
+    });
+
+    renderPage();
+    resetButtonStates();
+  </script>
+</body>
+</html>

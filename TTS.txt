@@ -1,0 +1,69 @@
+Part1
+Plant A is big and plant B is small.
+Plant A is thick and plant B is thin.
+Plant A has a small flower and plant B has a big flower.
+Plant A has a thick stem and plant B has a thin stem.
+Plant A has spikes and plant B has leaves.
+
+
+Part2
+The chimp has a belt like a crown.
+The frog sat next to one little star.
+Sam and Kit have got some sticks.
+They are stuck out in a storm.
+The flag is high on the mast.
+
+
+Part3
+The carrots are orange.
+
+The carrots are long.
+
+They are fresh.
+
+They are sweet and tasty.
+
+The carrots are orange and long.
+
+Carrots are healthy vegetables.
+
+Carrots are healthy vegetables, and they are good for us.
+
+
+Part4
+scrub =  刷子
+
+split =  分開
+
+strip =  長條
+
+splat =  潑濺聲
+
+splash =  水花灑出
+
+
+Part5
+The turnip was very big and heavy. Even
+with everyone helping, they could not pull it
+out, so the little mouse rolled it down the
+hill. Everyone cheered and shared the
+turnip.
+
+
+Part7
+run, running, 跑步
+walk, walking, 走路
+laugh, laughing, 笑
+drink, drinking, 喝
+jump, jumping, 跳
+swim, swimming, 游泳
+eat, eating, 吃
+cry, crying, 哭
+dance, dancing, 跳舞
+hop, hopping, 單腳跳
+kneel, kneeling, 跪下
+draw, drawing, 畫圖
+skip, skipping, 跳繩
+tiptoe, tiptoeing, 踮腳走
+write, writing, 寫字
+paint, painting, 畫畫
